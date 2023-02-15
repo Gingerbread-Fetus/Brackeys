@@ -6,7 +6,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public InputAction playerControls;
+    public InputAction moveControls;
+    public InputAction fireAction;
 
     Rigidbody2D rb;
     Vector2 moveDirection;
@@ -14,13 +15,21 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        playerControls.Enable();
+        moveControls.Enable();
+        fireAction.Enable();
+    }
+
+    private void OnDisable() 
+    {
+        moveControls.Disable();
+        fireAction.Disable();    
     }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        fireAction.performed += Fire;
     }
 
     // Start is called before the first frame update
@@ -32,7 +41,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moveDirection = playerControls.ReadValue<Vector2>();
+        moveDirection = moveControls.ReadValue<Vector2>();
         animator.SetFloat("X Direction", moveDirection.x);
         animator.SetFloat("Y Direction", moveDirection.y);
 
@@ -51,6 +60,6 @@ public class PlayerController : MonoBehaviour
 
     public void Fire(InputAction.CallbackContext context)
     {
-        Debug.Log("Fire!");
+        animator.SetTrigger("Attack");
     }
 }
