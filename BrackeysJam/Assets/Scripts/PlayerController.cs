@@ -35,10 +35,22 @@ public class PlayerController : MonoBehaviour
         moveDirection = playerControls.ReadValue<Vector2>();
         animator.SetFloat("X Direction", moveDirection.x);
         animator.SetFloat("Y Direction", moveDirection.y);
+
+        if(moveDirection.x == 1f || moveDirection.x == -1f ||
+           moveDirection.y == 1f || moveDirection.y == -1f)
+        {
+            animator.SetFloat("Last X Direction", moveDirection.x);
+            animator.SetFloat("Last Y Direction", moveDirection.y);
+        }
     }
 
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
+    }
+
+    public void Fire(InputAction.CallbackContext context)
+    {
+        Debug.Log("Fire!");
     }
 }
