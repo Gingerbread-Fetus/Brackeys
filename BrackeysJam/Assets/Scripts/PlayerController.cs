@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Vector2 moveDirection;
     Animator animator;
+    float lastXDirection, lastYDirection;
 
     private void OnEnable()
     {
@@ -48,8 +49,10 @@ public class PlayerController : MonoBehaviour
         if(moveDirection.x == 1f || moveDirection.x == -1f ||
            moveDirection.y == 1f || moveDirection.y == -1f)
         {
-            animator.SetFloat("Last X Direction", moveDirection.x);
-            animator.SetFloat("Last Y Direction", moveDirection.y);
+            lastXDirection = moveDirection.x;
+            lastYDirection = moveDirection.y;
+            animator.SetFloat("Last X Direction", lastXDirection);
+            animator.SetFloat("Last Y Direction", lastYDirection);
         }
     }
 
@@ -61,5 +64,12 @@ public class PlayerController : MonoBehaviour
     public void Fire(InputAction.CallbackContext context)
     {
         animator.SetTrigger("Attack");
+        Debug.DrawRay(transform.position, new Vector3(lastXDirection, lastYDirection, 0), Color.red, 10f);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2(lastXDirection, lastYDirection), 1f);
+        if(hit.collider != null)
+        {
+            print("Hit something");
+            print(hit.collider.name);
+        }
     }
 }
