@@ -70,6 +70,12 @@ public class PlayerController : MonoBehaviour
         {
             print("Hit something");
             print(hit.collider.name);
+            Health health = hit.collider.gameObject.GetComponent<Health>();
+            if(health != null)
+            {
+                health.takeDamage(1);
+                print("Enemy damaged");
+            }
         }
     }
 }
