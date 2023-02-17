@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
     public int healthPoints = 5;
     public float invincibilityTime = 5f;
+    public UnityEvent onDeath;
 
     private bool isInvincible = false;
     
@@ -39,6 +41,7 @@ public class Health : MonoBehaviour
 
     private void Die()
     {
+        onDeath.Invoke();
         Destroy(gameObject);
     }
 }

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public Transform followTarget;
     public float moveSpeed = 5f;
+    public GameObject dropItem;
+
+    [HideInInspector]public Transform followTarget;
 
     Rigidbody2D rb;
     Vector3 heading;
@@ -37,5 +39,10 @@ public class EnemyController : MonoBehaviour
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(heading.x * moveSpeed, heading.y * moveSpeed);
+    }
+
+    public void DropItem()
+    {
+        Instantiate(dropItem, transform.position, Quaternion.identity);
     }
 }
